@@ -416,6 +416,11 @@ class Calendar extends React.Component {
     toolbar: PropTypes.bool,
 
     /**
+     * Determines whether the Event cards are overlaped
+     */
+    canOverlapEvents: PropTypes.bool,
+
+    /**
      * Show truncated events in an overlay when you click the "+_x_ more" link.
      */
     popup: PropTypes.bool,
@@ -722,6 +727,7 @@ class Calendar extends React.Component {
 
   static defaultProps = {
     elementProps: {},
+    canOverlapEvents: true,
     popup: false,
     toolbar: true,
     view: views.MONTH,

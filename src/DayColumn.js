@@ -183,6 +183,7 @@ class DayColumn extends React.Component {
       components,
       step,
       timeslots,
+      canOverlapEvents,
     } = this.props
 
     const { slotMetrics } = this
@@ -193,6 +194,7 @@ class DayColumn extends React.Component {
       accessors,
       slotMetrics,
       minimumStartDifference: Math.ceil((step * timeslots) / 2),
+      canOverlapEvents,
     })
 
     return styledEvents.map(({ event, style }, idx) => {
@@ -371,6 +373,7 @@ class DayColumn extends React.Component {
 
 DayColumn.propTypes = {
   events: PropTypes.array.isRequired,
+  canOverlapEvents: PropTypes.bool,
   step: PropTypes.number.isRequired,
   date: PropTypes.instanceOf(Date).isRequired,
   min: PropTypes.instanceOf(Date).isRequired,

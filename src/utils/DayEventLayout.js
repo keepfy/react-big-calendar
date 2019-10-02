@@ -1,7 +1,7 @@
 import sortBy from 'lodash/sortBy'
 
 class Event {
-  constructor(data, { accessors, slotMetrics }) {
+  constructor(data, { accessors, slotMetrics }, canOverlap) {
     const {
       start,
       startDate,
@@ -18,6 +18,7 @@ class Event {
     this.top = top
     this.height = height
     this.data = data
+    this.canOverlap = canOverlap
   }
 
   /**
@@ -54,7 +55,8 @@ class Event {
    */
   get width() {
     const noOverlap = this._width
-    const overlap = Math.min(100, this._width * 1.7)
+    const growFactor = this.canOverlap ? 1.7 : 1
+    const overlap = Math.min(100, this._width * growFactor)
 
     // Containers can always grow.
     if (this.rows) {
@@ -133,11 +135,12 @@ function getStyledEvents({
   minimumStartDifference,
   slotMetrics,
   accessors,
+  canOverlapEvents,
 }) {
   // Create proxy events and order them so that we don't have
   // to fiddle with z-indexes.
   const proxies = events.map(
-    event => new Event(event, { slotMetrics, accessors })
+    event => new Event(event, { slotMetrics, accessors }, canOverlapEvents)
   )
   const eventsInRenderOrder = sortByRender(proxies)
 
