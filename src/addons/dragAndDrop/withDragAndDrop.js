@@ -102,6 +102,7 @@ export default function withDragAndDrop(Calendar) {
         onEnd: PropTypes.func,
         onBeginAction: PropTypes.func,
         onDropFromOutside: PropTypes.func,
+        lockDropFromOutside: PropTypes.func,
         dragFromOutsideItem: PropTypes.func,
         draggableAccessor: accessor,
         resizableAccessor: accessor,
@@ -130,6 +131,7 @@ export default function withDragAndDrop(Calendar) {
           onEnd: this.handleInteractionEnd,
           onBeginAction: this.handleBeginAction,
           onDropFromOutside: this.props.onDropFromOutside,
+          lockDropFromOutside: this.handleLockDropFromOutside,
           dragFromOutsideItem: this.props.dragFromOutsideItem,
           draggableAccessor: this.props.draggableAccessor,
           resizableAccessor: this.props.resizableAccessor,
@@ -140,6 +142,18 @@ export default function withDragAndDrop(Calendar) {
 
     defaultOnDragOver = event => {
       event.preventDefault()
+    }
+
+    /* *
+     * The onDropFromOutside is called twice times when the all day row
+     * overlaps the others rows (the calls occur in WeekWrapper and
+     * EventContainerWrapper), then to solve this was created the
+     * isLockedDropFromOutside to prevent the second call
+     */
+    handleLockDropFromOutside = lock => {
+      this.setState({
+        isLockedDropFromOutside: lock,
+      })
     }
 
     handleBeginAction = (event, action, direction) => {
@@ -164,6 +178,7 @@ export default function withDragAndDrop(Calendar) {
         event: null,
         interacting: false,
         direction: null,
+        isLockedDropFromOutside: false,
       })
 
       if (interactionInfo == null) return

@@ -38,6 +38,7 @@ class WeekWrapper extends React.Component {
       onEnd: PropTypes.func,
       dragAndDropAction: PropTypes.object,
       onDropFromOutside: PropTypes.func,
+      lockDropFromOutside: PropTypes.func,
       onBeginAction: PropTypes.func,
       dragFromOutsideItem: PropTypes.func,
     }),
@@ -110,7 +111,7 @@ class WeekWrapper extends React.Component {
 
   handleDropFromOutside = (point, rowBox) => {
     if (!this.context.draggable.onDropFromOutside) return
-    const { slotMetrics: metrics } = this.props
+    const { slotMetrics: metrics, isAllDay } = this.props
 
     let start = metrics.getDateForSlot(
       getSlotAtX(rowBox, point.x, false, metrics.slots)
@@ -119,8 +120,15 @@ class WeekWrapper extends React.Component {
     this.context.draggable.onDropFromOutside({
       start,
       end: dates.add(start, 1, 'day'),
-      allDay: false,
+      allDay: isAllDay,
     })
+
+    /**
+     * locking the dropFromOutside to prevent the second call
+     * in EventContainerWrapper
+     * */
+
+    this.context.draggable.lockDropFromOutside(true)
   }
 
   handleDragOverFromOutside = ({ x, y }, node) => {

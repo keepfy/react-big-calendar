@@ -32,6 +32,7 @@ class EventContainerWrapper extends React.Component {
       onStart: PropTypes.func,
       onEnd: PropTypes.func,
       onDropFromOutside: PropTypes.func,
+      lockDropFromOutside: PropTypes.func,
       onBeginAction: PropTypes.func,
       dragAndDropAction: PropTypes.object,
       dragFromOutsideItem: PropTypes.func,
@@ -116,6 +117,17 @@ class EventContainerWrapper extends React.Component {
   }
 
   handleDropFromOutside = (point, boundaryBox) => {
+    /**
+     * verifying if onDropFromOutside is defined or
+     * if can dropFromOutside
+     * */
+
+    if (
+      !this.context.draggable.onDropFromOutside ||
+      this.context.draggable.dragAndDropAction.isLockedDropFromOutside
+    )
+      return
+
     const { slotMetrics, resource } = this.props
 
     let start = slotMetrics.closestSlotFromPoint(
