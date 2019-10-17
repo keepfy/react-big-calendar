@@ -530,6 +530,11 @@ class Calendar extends React.Component {
     max: PropTypes.instanceOf(Date),
 
     /**
+     * Constrains the maximum _rows_ of the date cell in the Month view.
+     */
+    maxRowsDateCellMonth: PropTypes.number,
+
+    /**
      * Determines how far down the scroll pane is initially scrolled down.
      */
     scrollToTime: PropTypes.instanceOf(Date),

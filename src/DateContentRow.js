@@ -49,6 +49,7 @@ class DateContentRow extends React.Component {
     return container ? container() : findDOMNode(this)
   }
 
+  // TODO: refactor this calc
   getRowLimit() {
     let eventHeight = getHeight(this.eventRow)
     let headingHeight = this.headingRow ? getHeight(this.headingRow) : 0

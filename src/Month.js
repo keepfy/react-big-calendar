@@ -102,6 +102,7 @@ class MonthView extends React.Component {
       longPressThreshold,
       accessors,
       getters,
+      maxRowsDateCellMonth,
     } = this.props
 
     const { needLimitMeasure, rowLimit } = this.state
@@ -120,7 +121,7 @@ class MonthView extends React.Component {
         date={date}
         range={week}
         events={events}
-        maxRows={rowLimit}
+        maxRows={maxRowsDateCellMonth || rowLimit}
         selected={selected}
         selectable={selectable}
         components={components}
@@ -302,6 +303,8 @@ MonthView.propTypes = {
 
   min: PropTypes.instanceOf(Date),
   max: PropTypes.instanceOf(Date),
+
+  maxRowsDateCellMonth: PropTypes.number,
 
   step: PropTypes.number,
   getNow: PropTypes.func.isRequired,
