@@ -4385,9 +4385,9 @@ data-urls@^1.0.0:
     whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
 
-"date-arithmetic@git://github.com/keepfy/date-math#refactor-add":
+"date-arithmetic@git://github.com/keepfy/date-math#master":
   version "4.0.1"
-  resolved "git://github.com/keepfy/date-math#44b425dbbd41777939338623b86533bae23b9082"
+  resolved "git://github.com/keepfy/date-math#a42da00462e69de49cbaac9070413f4f54b5c5f9"
 
 date-fns@^1.27.2:
   version "1.30.1"
