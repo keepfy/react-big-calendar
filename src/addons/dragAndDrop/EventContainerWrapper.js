@@ -183,7 +183,6 @@ class EventContainerWrapper extends React.Component {
 
     selector.on('dragOver', point => {
       if (!this.context.draggable.dragFromOutsideItem) return
-
       const bounds = getBoundsForNode(node)
 
       this.handleDropFromOutside(point, bounds)
@@ -194,7 +193,14 @@ class EventContainerWrapper extends React.Component {
     selector.on('select', point => {
       const bounds = getBoundsForNode(node)
 
-      if (!this.state.event || !pointInColumn(bounds, point)) return
+      if (!this.state.event || !pointInColumn(bounds, point)) {
+        // when dropping the event outside of calendar
+        // finish the iteration
+        if (this.context.draggable.dragAndDropAction.interacting)
+          this.context.draggable.onEnd(null, true)
+        return
+      }
+
       this.handleInteractionEnd()
     })
 
