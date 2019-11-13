@@ -111,6 +111,8 @@ class EventContainerWrapper extends React.Component {
     } else if (direction === 'DOWN') {
       start = accessors.start(event)
       end = dates.max(currentSlot, slotMetrics.closestSlotFromDate(start))
+    } else {
+      return
     }
 
     this.update(event, slotMetrics.getRange(start, end))
@@ -166,9 +168,10 @@ class EventContainerWrapper extends React.Component {
     selector.on('selecting', box => {
       const bounds = getBoundsForNode(node)
       const { dragAndDropAction } = this.context.draggable
-
-      if (dragAndDropAction.action === 'move') this.handleMove(box, bounds)
-      if (dragAndDropAction.action === 'resize') this.handleResize(box, bounds)
+      const { action, direction } = dragAndDropAction
+      if (action === 'move') this.handleMove(box, bounds)
+      if (action === 'resize' && (direction === 'UP' || direction === 'DOWN'))
+        this.handleResize(box, bounds)
     })
 
     selector.on('dropFromOutside', point => {
