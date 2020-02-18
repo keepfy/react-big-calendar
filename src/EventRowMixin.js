@@ -43,6 +43,7 @@ export default {
 
     return (
       <EventCell
+        view={props.view}
         event={event}
         getters={getters}
         localizer={localizer}

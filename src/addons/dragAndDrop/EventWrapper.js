@@ -3,6 +3,7 @@ import React from 'react'
 import clsx from 'clsx'
 import { accessor } from '../../utils/propTypes'
 import { accessor as get } from '../../utils/accessors'
+import { Views } from '../../index'
 
 class EventWrapper extends React.Component {
   static contextTypes = {
@@ -17,9 +18,9 @@ class EventWrapper extends React.Component {
   }
 
   static propTypes = {
+    view: PropTypes.string,
     type: PropTypes.oneOf(['date', 'time']),
     event: PropTypes.object.isRequired,
-
     draggable: PropTypes.bool,
     allDay: PropTypes.bool,
     isRow: PropTypes.bool,
@@ -80,8 +81,18 @@ class EventWrapper extends React.Component {
         ),
       })
 
-    const { draggable } = this.context
-    const { draggableAccessor, resizableAccessor } = draggable
+    /*
+     * FIXME:
+     *   this will disable the dnd in the month view
+     *
+     *   In some cycle, the value of `this.context.draggable` become `undefined`
+     *   and crash the application
+     */
+    if (this.props.view === Views.MONTH) return children
+
+    const { draggable = {} } = this.context
+
+    const { draggableAccessor = null, resizableAccessor = null } = draggable
 
     const isDraggable = draggableAccessor
       ? !!get(event, draggableAccessor)

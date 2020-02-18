@@ -10,6 +10,7 @@ import BackgroundCells from './BackgroundCells'
 import EventRow from './EventRow'
 import EventEndingRow from './EventEndingRow'
 import * as DateSlotMetrics from './utils/DateSlotMetrics'
+import { Views } from './index'
 
 class DateContentRow extends React.Component {
   constructor(...args) {
@@ -127,6 +128,7 @@ class DateContentRow extends React.Component {
     let WeekWrapper = components.weekWrapper
 
     const eventRowProps = {
+      view: Views.MONTH,
       selected,
       accessors,
       getters,
